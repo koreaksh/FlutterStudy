@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:study/common/const/colors.dart';
 
+import '../../common/const/data.dart';
+import '../model/restaurant_model.dart';
+
 class RestaurantCard extends StatelessWidget {
   final Widget image;
   final String name;
@@ -20,6 +23,18 @@ class RestaurantCard extends StatelessWidget {
     required this.ratings,
     Key? key,
   }) : super(key: key);
+
+  factory RestaurantCard.fromModel(RestaurantModel model) {
+    return RestaurantCard(
+      image: Image.network(model.thumbUrl, fit: BoxFit.cover,),
+      name: model.name,
+      tags: model.tags,
+      ratingsCount: model.ratingsCount,
+      deliveryTime: model.deliveryTime,
+      deliveryPay: model.deliveryFee,
+      ratings: model.ratings,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,11 +77,20 @@ class RestaurantCard extends StatelessWidget {
               children: [
                 _IconText(icon: Icons.star, label: ratings.toString()),
                 renderDot(),
-                _IconText(icon: Icons.receipt, label: ratingsCount.toString(),),
+                _IconText(
+                  icon: Icons.receipt,
+                  label: ratingsCount.toString(),
+                ),
                 renderDot(),
-                _IconText(icon: Icons.timelapse_outlined, label: "$deliveryTime분",),
+                _IconText(
+                  icon: Icons.timelapse_outlined,
+                  label: "$deliveryTime분",
+                ),
                 renderDot(),
-                _IconText(icon: Icons.monetization_on, label: deliveryPay == 0 ? "무료" : deliveryPay.toString(),),
+                _IconText(
+                  icon: Icons.monetization_on,
+                  label: deliveryPay == 0 ? "무료" : deliveryPay.toString(),
+                ),
               ],
             ),
           ],
@@ -79,10 +103,13 @@ class RestaurantCard extends StatelessWidget {
 Widget renderDot() {
   return const Padding(
     padding: EdgeInsets.symmetric(horizontal: 4.0),
-    child: Text("·", style: TextStyle(
-      fontSize: 12.0,
-      fontWeight: FontWeight.w500,
-    ),),
+    child: Text(
+      "·",
+      style: TextStyle(
+        fontSize: 12.0,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
   );
 }
 
