@@ -1,8 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:study/common/const/colors.dart';
+import 'package:study/common/const/data.dart';
+import 'package:study/restaurant/model/restaurant_detail_model.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({Key? key}) : super(key: key);
+  final Image image;
+  final String name;
+  final String detail;
+  final int price;
+
+  const ProductCard( {
+    required this.image,
+    required this.name,
+    required this.detail,
+    required this.price,
+    Key? key,
+  }) : super(key: key);
+
+  factory ProductCard.fromModel(RestaurantProductModel model) {
+    return ProductCard(
+      image: Image.network(model.imageUrl, width: 110, height: 110, fit: BoxFit.cover,),
+      name: model.name,
+      detail: model.detail,
+      price: model.price,
+    );
+  }
+
+  // Image.asset(
+  // "asset/img/food/ddeok_bok_gi.jpg",
+  // width: 110,
+  // height: 110,
+  // fit: BoxFit.cover,
+  // ),
 
   @override
   Widget build(BuildContext context) {
@@ -11,12 +40,7 @@ class ProductCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
-            child: Image.asset(
-              "asset/img/food/ddeok_bok_gi.jpg",
-              width: 110,
-              height: 110,
-              fit: BoxFit.cover,
-            ),
+            child: image,
           ),
           const SizedBox(
             width: 16.0,
@@ -27,14 +51,14 @@ class ProductCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "떡볶이",
+                  name,
                   style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
                 Text(
-                  "전통 떡볶이의 정석!\n맛있습니다.",
+                  detail,
                   style: TextStyle(
                     fontSize: 14.0,
                     color: BODY_TEXT_COLOR,
@@ -43,7 +67,7 @@ class ProductCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  "\$10000",
+                  "\$$price",
                   textAlign: TextAlign.end,
                   style: TextStyle(
                     color: PRIMARY_COLOR,
