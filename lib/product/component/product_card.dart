@@ -19,7 +19,7 @@ class ProductCard extends StatelessWidget {
 
   factory ProductCard.fromModel(RestaurantProductModel model) {
     return ProductCard(
-      image: Image.network(model.imageUrl, width: 110, height: 110, fit: BoxFit.cover,),
+      image: Image.network(model.imgUrl, width: 110, height: 110, fit: BoxFit.cover,),
       name: model.name,
       detail: model.detail,
       price: model.price,

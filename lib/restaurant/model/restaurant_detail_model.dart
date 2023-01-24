@@ -1,7 +1,11 @@
+import 'package:study/common/utils/data_utils.dart';
 import 'package:study/restaurant/model/restaurant_model.dart';
-
+import 'package:json_annotation/json_annotation.dart';
 import '../../common/const/data.dart';
 
+part 'restaurant_detail_model.g.dart';
+
+@JsonSerializable()
 class RestaurantDetailModel extends RestaurantModel {
   final String detail;
   final List<RestaurantProductModel> products;
@@ -21,45 +25,32 @@ class RestaurantDetailModel extends RestaurantModel {
   });
 
   factory RestaurantDetailModel.fromJson(Map<String, dynamic> json) {
-    return RestaurantDetailModel(
-      id: json["id"],
-      name: json["name"],
-      thumbUrl: "http://$ip${json["thumbUrl"]}",
-      tags: List<String>.from(json["tags"]),
-      priceRange: RestaurantPriceRange.values
-          .firstWhere((e) => e.name == json["priceRange"]),
-      ratings: json["ratings"],
-      ratingsCount: json["ratingsCount"],
-      deliveryTime: json["deliveryTime"],
-      deliveryFee: json["deliveryTime"],
-      detail: json["detail"],
-      products: json["products"].map<RestaurantProductModel>((e) => RestaurantProductModel.fromJson(e)).toList(),
-    );
+    return _$RestaurantDetailModelFromJson(json);
   }
 }
 
+
+@JsonSerializable()
 class RestaurantProductModel {
   final String id;
   final String name;
-  final String imageUrl;
+  @JsonKey(
+    fromJson: DataUtils.pathToUrl,
+  )
+  final String imgUrl;
   final String detail;
   final int price;
 
   RestaurantProductModel({
     required this.id,
     required this.name,
-    required this.imageUrl,
+    required this.imgUrl,
     required this.detail,
     required this.price,
   });
 
-  factory RestaurantProductModel.fromJson(Map<String, dynamic> json) {
-    return RestaurantProductModel(
-      id: json["id"],
-      name: json["name"],
-      imageUrl: "http://$ip${json["imgUrl"]}",
-      detail: json["detail"],
-      price: json["price"],
-    );
+  factory RestaurantProductModel.fromJson(Map<String,dynamic> json) {
+      return _$RestaurantProductModelFromJson(json);
   }
+  
 }
